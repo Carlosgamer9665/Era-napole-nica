@@ -33,7 +33,7 @@
           Seu navegador não suporta o elemento de áudio.
       </audio>
       
-      <button id="btnToggle">Ativar Música Música</button>
+      <button id="btnToggle">Ativar Música</button>
 
       <script>
         const btnToggle = document.getElementById('btnToggle');
@@ -42,7 +42,7 @@
         btnToggle.addEventListener('click', () => {
             if (musicaFundo.paused) {
                 musicaFundo.play(); // Reproduz a música
-                btnToggle.textContent = 'Ativar Música'; // Atualiza o texto do botão
+                btnToggle.textContent = 'Desativar Música'; // Atualiza o texto do botão
             } else {
                 musicaFundo.pause(); // Pausa a música
                 btnToggle.textContent = 'Ativar musica'; // Atualiza o texto do botão
