@@ -7,6 +7,61 @@
 </head>
 <header class="cabecalho"><center><h1>FAQ: Era Napoleônica</h1></center></header>
 <style>
+    .comment-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.comment-section h2 {
+    text-align: center;
+}
+
+.comment-form input, .comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.comment-form button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #218838;
+}
+
+.comments-list {
+    margin-top: 20px;
+}
+
+.comment {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.comment .name {
+    font-weight: bold;
+}
+
+     body {
+            background: radial-gradient(circle, #cc9e8a 30%, #b47c5d 100%);
+            margin: 0;
+            height: 100vh;
+        }
     body {
         font-family: Arial, sans-serif;
     }
@@ -15,6 +70,9 @@
         font-size: 16px;
         cursor: pointer;
     }
+    button {
+            transition: all 0.3s ease;  /* Suaviza as transições de estilo */
+        }
 </style>
       
       <ul class="lista">
@@ -41,21 +99,62 @@
       <script>
         const btnToggle = document.getElementById('btnToggle');
         const musicaFundo = document.getElementById('musicaFundo');
-
+    
+        btnToggle.style.backgroundColor = '#2ecc71';
+        btnToggle.style.color = 'white';
+        btnToggle.style.border = '4px solid #27ae60';
+        btnToggle.style.borderRadius = '12px';
+        btnToggle.style.transition = 'all 0.3s ease';
+    
+        function handleExplosionEffect(event) {
+            const mouseX = event.clientX - btnToggle.offsetLeft;
+            const mouseY = event.clientY - btnToggle.offsetTop;
+    
+            const darkColor = musicaFundo.paused ? '#27ae60' : '#c0392b';
+    
+            btnToggle.style.background = `radial-gradient(circle at ${mouseX}px ${mouseY}px, ${darkColor}, ${musicaFundo.paused ? '#2ecc71' : '#e74c3c'})`;
+            btnToggle.style.transform = 'scale(1.1)';
+        }
+    
+        btnToggle.addEventListener('mouseenter', () => {
+            btnToggle.addEventListener('mousemove', handleExplosionEffect);
+        });
+    
+        btnToggle.addEventListener('mouseleave', () => {
+            btnToggle.style.backgroundColor = musicaFundo.paused ? '#2ecc71' : '#e74c3c';
+            btnToggle.style.transform = 'scale(1)';
+            btnToggle.removeEventListener('mousemove', handleExplosionEffect);
+        });
+    
+        btnToggle.addEventListener('mousedown', () => {
+            btnToggle.style.backgroundColor = '#16a085';
+            btnToggle.style.transform = 'scale(0.95)';
+        });
+    
+        btnToggle.addEventListener('mouseup', () => {
+            btnToggle.style.backgroundColor = musicaFundo.paused ? '#2ecc71' : '#e74c3c';
+            btnToggle.style.transform = 'scale(1)';
+        });
+    
         btnToggle.addEventListener('click', () => {
             if (musicaFundo.paused) {
-                musicaFundo.play(); // Reproduz a música
-                btnToggle.textContent = 'Desativar Música'; // Atualiza o texto do botão
+                musicaFundo.play();
+                btnToggle.textContent = 'Desativar Música';
+                btnToggle.style.backgroundColor = '#e74c3c';
+                btnToggle.style.border = '4px solid #c0392b';
             } else {
-                musicaFundo.pause(); // Pausa a música
-                btnToggle.textContent = 'Ativar Música'; // Atualiza o texto do botão
+                musicaFundo.pause();
+                btnToggle.textContent = 'Ativar Música';
+                btnToggle.style.backgroundColor = '#2ecc71';
+                btnToggle.style.border = '4px solid #27ae60';
             }
         });
     </script>
+    
           </center>
           
 <body>
-    <body bgcolor="lightyellow"></body>
+
 <h2>1. Como Napoleão alcança o poder na França?</h2>
 <p>Napoleão Bonaparte foi um militar talentoso que ganhou destaque durante a Revolução Francesa (1789–1799), especialmente nas campanhas militares. No contexto da Revolução, ele se destacou como comandante, especialmente na campanha da Itália (1796–1797) e na campanha do Egito (1798–1799).
 
@@ -133,6 +232,49 @@
                             </p>
 
                             <footer><h4>© (2025) Carlos Alexandre Burg Tobias e Mateus Phelipe Dias Justi. Todos os direitos reservados.</h4></footer>
+
+                            <div class="comment-section">
+    <h2>Comentários</h2>
+    <form class="comment-form" id="commentForm">
+        <input type="text" id="name" placeholder="Seu nome" required>
+        <textarea id="comment" rows="4" placeholder="Seu comentário" required></textarea>
+        <button type="submit">Enviar Comentário</button>
+    </form>
+    <div class="comments-list" id="commentsList"></div>
+</div>
+
+<script>
+    // Adicionando comentários à lista
+    const commentForm = document.getElementById('commentForm');
+    const nameInput = document.getElementById('name');
+    const commentInput = document.getElementById('comment');
+    const commentsList = document.getElementById('commentsList');
+
+    commentForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Criação do novo comentário
+        const comment = document.createElement('div');
+        comment.classList.add('comment');
+        
+        const name = document.createElement('p');
+        name.classList.add('name');
+        name.textContent = nameInput.value || 'Anônimo';
+
+        const commentText = document.createElement('p');
+        commentText.textContent = commentInput.value;
+
+        comment.appendChild(name);
+        comment.appendChild(commentText);
+
+        // Adiciona o comentário à lista
+        commentsList.appendChild(comment);
+
+        // Limpa os campos após enviar
+        nameInput.value = '';
+        commentInput.value = '';
+    });
+</script>
 
                             
 </body>
