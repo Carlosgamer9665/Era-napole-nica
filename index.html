@@ -73,6 +73,12 @@
     button {
             transition: all 0.3s ease;  /* Suaviza as transições de estilo */
         }
+
+    /* Estilização da barra de volume */
+    #volumeControl {
+        width: 200px;
+        margin-top: 10px;
+    }
 </style>
       
       <ul class="lista">
@@ -95,11 +101,15 @@
       </audio>
       
       <button id="btnToggle">Ativar Música</button>
+      <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
 
       <script>
         const btnToggle = document.getElementById('btnToggle');
         const musicaFundo = document.getElementById('musicaFundo');
+        const volumeControl = document.getElementById('volumeControl');
     
+        musicaFundo.volume = 0.5; // Define o volume inicial para 50%
+
         btnToggle.style.backgroundColor = '#2ecc71';
         btnToggle.style.color = 'white';
         btnToggle.style.border = '4px solid #27ae60';
@@ -148,6 +158,10 @@
                 btnToggle.style.backgroundColor = '#2ecc71';
                 btnToggle.style.border = '4px solid #27ae60';
             }
+        });
+        
+        volumeControl.addEventListener('input', () => {
+            musicaFundo.volume = volumeControl.value;
         });
     </script>
     
@@ -232,6 +246,50 @@
                             </p>
 
                             <footer><h4>© (2025) Carlos Alexandre Burg Tobias e Mateus Phelipe Dias Justi. Todos os direitos reservados.</h4></footer>
-    
+
+                            <div class="comment-section">
+    <h2>Comentários</h2>
+    <form class="comment-form" id="commentForm">
+        <input type="text" id="name" placeholder="Seu nome" required>
+        <textarea id="comment" rows="4" placeholder="Seu comentário" required></textarea>
+        <button type="submit">Enviar Comentário</button>
+    </form>
+    <div class="comments-list" id="commentsList"></div>
+</div>
+
+<script>
+    // Adicionando comentários à lista
+    const commentForm = document.getElementById('commentForm');
+    const nameInput = document.getElementById('name');
+    const commentInput = document.getElementById('comment');
+    const commentsList = document.getElementById('commentsList');
+
+    commentForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Criação do novo comentário
+        const comment = document.createElement('div');
+        comment.classList.add('comment');
+        
+        const name = document.createElement('p');
+        name.classList.add('name');
+        name.textContent = nameInput.value || 'Anônimo';
+
+        const commentText = document.createElement('p');
+        commentText.textContent = commentInput.value;
+
+        comment.appendChild(name);
+        comment.appendChild(commentText);
+
+        // Adiciona o comentário à lista
+        commentsList.appendChild(comment);
+
+        // Limpa os campos após enviar
+        nameInput.value = '';
+        commentInput.value = '';
+    });
+</script>
+
+                            
 </body>
 </html>
