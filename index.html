@@ -257,39 +257,5 @@
     <div class="comments-list" id="commentsList"></div>
 </div>
 
-<script>
-    // Adicionando comentários à lista
-    const commentForm = document.getElementById('commentForm');
-    const nameInput = document.getElementById('name');
-    const commentInput = document.getElementById('comment');
-    const commentsList = document.getElementById('commentsList');
-
-    commentForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        // Criação do novo comentário
-        const comment = document.createElement('div');
-        comment.classList.add('comment');
-        
-        const name = document.createElement('p');
-        name.classList.add('name');
-        name.textContent = nameInput.value || 'Anônimo';
-
-        const commentText = document.createElement('p');
-        commentText.textContent = commentInput.value;
-
-        comment.appendChild(name);
-        comment.appendChild(commentText);
-
-        // Adiciona o comentário à lista
-        commentsList.appendChild(comment);
-
-        // Limpa os campos após enviar
-        nameInput.value = '';
-        commentInput.value = '';
-    });
-</script>
-
-                            
 </body>
 </html>
